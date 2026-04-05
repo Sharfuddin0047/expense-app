@@ -1,0 +1,39 @@
+# Maven / Gradle build directories
+target
+build
+out
+
+# Node modules (if you have frontend bundled in same repo)
+node_modules
+
+# Logs
+*.log
+*.out
+
+# Environment and secret files
+.env
+.env.*
+application-*.yml
+application-*.properties
+
+# IDE and editor configs
+.vscode
+.idea
+*.iml
+
+# OS / system files
+.DS_Store
+Thumbs.db
+
+# Git and VCS
+.git
+.gitignore
+
+# Docker files themselves
+Dockerfile
+.dockerignore
+
+# Test and coverage outputs
+coverage
+*.spec.java
+*.test.java
