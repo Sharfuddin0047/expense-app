@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { clearErrors, getErrors } from "./ErrorSlice";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:1011";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 //! Create Action
 //! not used yet
