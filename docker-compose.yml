@@ -1,41 +1,21 @@
 version: '3.8'
 
 services:
-  mysql:
-    image: mysql:8.0
-    container_name: mysql-db
-    restart: always
-    environment:
-      MYSQL_DATABASE: wallet_app
-      MYSQL_ROOT_PASSWORD: "Sharfu@8826"
-    volumes:
-      - mysql_data:/var/lib/mysql
-    networks:
-      - wallet_app
-    healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p$MYSQL_ROOT_PASSWORD || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 60s
 
   walletapp-backend:
     build:
       context: ./wallet-app
     container_name: walletapp_backend_cont
     restart: always
-    depends_on:
-      mysql:
-        condition: service_healthy
     networks:
       - wallet_app
     environment:
       APP_NAME: wallet-app
-      DB_HOST: mysql
+      DB_HOST: <RDS Endpoint>
       DB_USER: root
       DB_PORT: 3306
       DB_NAME: wallet_app
-      DB_PASSWORD: Sharfu@8826
+      DB_PASSWORD: <RDS Password>
       SERVER_PORT: 1011
     expose:
       - "1011"
