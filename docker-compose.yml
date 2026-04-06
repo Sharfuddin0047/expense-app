@@ -18,13 +18,13 @@ services:
       timeout: 5s
       retries: 5
       start_period: 60s
-  
+
   walletapp-backend:
     build:
       context: ./wallet-app
-    container_name: "walletapp_backend_cont"
+    container_name: walletapp_backend_cont
     restart: always
-    depends_on: 
+    depends_on:
       mysql:
         condition: service_healthy
     networks:
@@ -37,8 +37,8 @@ services:
       DB_NAME: wallet_app
       DB_PASSWORD: Sharfu@8826
       SERVER_PORT: 1011
-    ports:
-      - "1011:1011"
+    expose:
+      - "1011"
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:1011/actuator/health || exit 1"]
       interval: 30s
@@ -46,21 +46,34 @@ services:
       retries: 10
       start_period: 30s
 
-
   walletapp-frontend:
     build:
       context: ./walletapp
-    container_name: "walletapp-frontend_cont"
+      args:
+        VITE_API_BASE_URL: /api
+    container_name: walletapp_frontend_cont
     restart: always
-    depends_on: 
+    depends_on:
       walletapp-backend:
         condition: service_healthy
     networks:
       - wallet_app
-    environment:
-      VITE_API_BASE_URL: http://localhost:1011
+    expose:
+      - "80"
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx-proxy
+    restart: always
+    depends_on:
+      - walletapp-frontend
+      - walletapp-backend
     ports:
-      - "80:80"
+      - "80:80"   
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - wallet_app
 
 volumes:
   mysql_data:
