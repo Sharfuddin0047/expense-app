@@ -55,9 +55,6 @@ services:
     networks:
       - wallet_app
 
-volumes:
-  mysql_data:
-
 networks:
   wallet_app:
     driver: bridge
