@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: walletapp-backend-deployment
+  namespace: expense-tracker-ns
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: walletapp-backend
+
+  template:
+    metadata:
+      labels:
+        app: walletapp-backend
+
+    spec:
+      containers:
+        - name: walletapp-backend
+          image: sharfuddin47/expenseapp-backend:latest
+
+          ports:
+            - containerPort: 1011
+
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "768Mi"
+            limits:
+              cpu: "2"
+              memory: "2Gi"
+
+          env:
+            - name: APP_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: et-configmap
+                  key: APP_NAME
+
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: et-configmap
+                  key: DB_HOST
+
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: et-secret
+                  key: DB_USER
+
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: et-configmap
+                  key: DB_PORT
+
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: et-configmap
+                  key: DB_NAME
+
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: et-secret
+                  key: DB_PASSWORD
+
+            - name: SERVER_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: et-configmap
+                  key: SERVER_PORT

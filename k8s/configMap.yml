@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: et-configmap
+  namespace: expense-tracker-ns
+data:
+  MYSQL_DATABASE: wallet_app
+  APP_NAME: wallet-app
+  DB_HOST: mysql
+  DB_PORT: "3306"
+  DB_NAME: wallet_app
+  SERVER_PORT: "1011"
